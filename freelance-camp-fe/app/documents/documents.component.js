@@ -31,7 +31,7 @@ var DocumentsComponent = (function () {
                 file_url: 'http://google.com',
                 updated_at: '11/11/16',
                 image_url: 'http://www.surelyjobs.com/wp-content/uploads/2016/02/edfsdfs.jpg',
-            },
+            }
         ];
     }
     DocumentsComponent = __decorate([
