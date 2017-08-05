@@ -1,20 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { Proposal } from './proposal';
+import { ProposalService } from './proposal.service';
 
 @Component({
 	moduleId: module.id,
 	selector: 'proposal-list',
-	templateUrl: 'proposal-list.component.html'
+	templateUrl: 'proposal-list.component.html',
+	styleUrls: ['proposal-list.component.css'],
+	providers: [ ProposalService ]
 })
+export class ProposalListComponent implements OnInit {
+	proposals: Proposal[];
+	errorMessage: string;
+	mode = "Observable";
 
-export class ProposalListComponent {
-	proposalOne: Proposal = new Proposal(15, 'ABC Company', 'http://portfolio.bencritchfield.com', 'Ruby on Rails', 150, 120, 15, 'ben@gmail.com')
-	proposalTwo: Proposal = new Proposal(20, 'xyz Company', 'http://portfolio.bencritchfield.com', 'Ruby on Rails', 150, 120, 15, 'ben@gmail.com')
-	proposalThree: Proposal = new Proposal(150, 'Something Company', 'http://portfolio.bencritchfield.com', 'Ruby on Rails', 150, 120, 15, 'ben@gmail.com')	
+	constructor(
+		private proposalService: ProposalService,
+		private router: Router
+	) {}
 
-	proposals: Proposal[] = [
-		this.proposalOne, 
-		this.proposalTwo, 
-		this.proposalThree
-	]
+	ngOnInit() {
+		let timer = Observable.timer(0, 5000);
+		timer.subscribe(() => this.getProposals());
+	}
+
+	getProposals() {
+		this.proposalService.getProposals()
+				.subscribe(
+					proposals => this.proposals = proposals,
+					error => this.errorMessage = <any>error
+				);
+	}
+
+	goToShow(proposal: Proposal): void {
+		let link = ['/proposal', proposal.id];
+		this.router.navigate(link);
+	}
 }

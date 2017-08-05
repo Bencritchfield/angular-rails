@@ -89,6 +89,14 @@
 											[(ngModel)]="proposal.hourly_rate"
 							>
 						</div>
+
+						<button type="submit"
+							class='btn btn-outline-info btn-lg'
+							[disabled]="!proposalForm.form.valid"
+							[hidden]="submitted"
+							>
+							Generate Proposal
+						</button>
 							
 						<div [hidden]="hourly_rate.valid || hourly_rate.pristine"
 									class='alert alert-danger'
